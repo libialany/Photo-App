@@ -1,0 +1,38 @@
+  const jid = req.cookies.jid || ''
+    if (jid) {
+      await this.refreshTokensService.removeByid(jid)
+    }
+
+    const idToken =
+      req.user?.idToken || req.session?.passport?.user?.idToken || null
+
+    // req.logout();
+    req.session.destroy(() => {
+      this.logger.info('sesión finalizada')
+    })
+    const issuer = await Issuer.discover(
+      this.configService.get('OIDC_ISSUER') || ''
+    )
+    const url = issuer.metadata.end_session_endpoint
+    res.clearCookie('connect.sid')
+    res.clearCookie('jid', jid)
+    const idUsuario = req.headers.authorization
+      ? JSON.parse(
+          Buffer.from(
+            `${req.headers.authorization}`.split('.')[1],
+            'base64'
+          ).toString()
+        ).id
+      : null
+
+    this.logger.info(`Usuario: ${idUsuario} salió del sistema`)
+
+    if (!(url && idToken)) {
+      return res.status(200).json()
+    }
+
+    return res.status(200).json({
+      url: `${url}?post_logout_redirect_uri=${this.configService.get(
+        'OIDC_POST_LOGOUT_REDIRECT_URI'
+      )}&id_token_hint=${idToken}`,
+    })
