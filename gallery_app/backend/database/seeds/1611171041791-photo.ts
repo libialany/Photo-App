@@ -10,11 +10,15 @@ export class photo1611171041790 implements MigrationInterface {
       },
     ];
     for (const item of items) {
-      const photo = new Photo(item.title, item.url, item.description);
+      const photo = new Photo({
+        title: item.title,
+        url: item.url,
+        description: item.description,
+      });
       await queryRunner.manager.save(photo);
     }
   }
 
   /* eslint-disable */
-    public async down(queryRunner: QueryRunner): Promise<void> { }
+  public async down(queryRunner: QueryRunner): Promise<void> { }
 }

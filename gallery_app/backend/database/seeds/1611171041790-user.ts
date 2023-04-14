@@ -10,11 +10,15 @@ export class user1611171041790 implements MigrationInterface {
       },
     ];
     for (const item of items) {
-      const photo = new User(item.name, item.username, item.password);
-      await queryRunner.manager.save(photo);
+      const user = new User({
+        name: item.name,
+        username: item.username,
+        password: item.password,
+      });
+      await queryRunner.manager.save(user);
     }
   }
 
   /* eslint-disable */
-    public async down(queryRunner: QueryRunner): Promise<void> { }
+  public async down(queryRunner: QueryRunner): Promise<void> { }
 }

@@ -1,10 +1,12 @@
 import { DataSource } from 'typeorm';
+import { config } from 'dotenv';
+config();
 const SeedDataSource = new DataSource({
   type: 'postgres',
   host: 'localhost',
   port: 5432,
   username: process.env.DB_USERNAME,
-  password: process.env.DB_PASSWORD,
+  password: 'p0s7gr3s' || process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
   synchronize: false,
   logging: true,
