@@ -17,19 +17,11 @@ import { HasRoles } from 'src/auth/decorators/has-roles.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles-auht.guard';
 import { Role } from 'src/auth/model/roles.enum';
-import { User } from 'src/auth/dto/user-payload.dto';
-import {
-  AbilityFactory,
-  Action,
-} from 'src/ability/ability.factory/ability.factory';
 import { Request, Response } from 'express';
 import { UsersService } from './user.service';
 @Controller('users')
 export class UsersController {
-  constructor(
-    private readonly usersService: UsersService,
-    private abilityFactory: AbilityFactory,
-  ) {}
+  constructor(private readonly usersService: UsersService) {}
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {

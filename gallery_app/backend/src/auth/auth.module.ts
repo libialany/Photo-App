@@ -2,7 +2,7 @@ import { config } from 'dotenv';
 config();
 import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
-import { JwtModule } from '@nestjs/jwt';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 import { LocalStrategy } from './strategy/local.strategy';
 import { JwtStrategy } from './strategy/jwt.strategy';
 import { AuthService } from './auth.service';
@@ -11,6 +11,7 @@ import { AbilityModule } from 'src/ability/ability.module';
 import { AbilityFactory } from 'src/ability/ability.factory/ability.factory';
 import { RefreshTokenStrategy } from './strategy/refreshToken.strategy';
 import { UsersModule } from 'src/user/user.module';
+import { UsersService } from 'src/user/user.service';
 
 @Module({
   imports: [

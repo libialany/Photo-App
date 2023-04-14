@@ -4,7 +4,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreatePhotoDTO, UpdatePhotoDTO } from 'src/dto/photo.dto';
 import { unlink } from 'node:fs';
-import { DataSource } from 'typeorm';
 import { Photo } from 'src/entity/photo.entity';
 import { User } from 'src/user/entities/user.entity';
 @Injectable()
@@ -12,7 +11,6 @@ export class PhotoService {
   constructor(
     @InjectRepository(Photo)
     private photoRepository: Repository<Photo>,
-    private dataSource: DataSource,
     @InjectRepository(User)
     private userRepository: Repository<User>,
   ) {}
@@ -44,11 +42,11 @@ export class PhotoService {
   //   return result;
   // }
   public async getPhotos() {
-    const result = await this.dataSource
-      .getRepository(Photo)
-      .createQueryBuilder('photo')
-      .getMany();
-    return result;
+    // const result = await this.dataSource
+    //   .getRepository(Photo)
+    //   .createQueryBuilder('photo')
+    //   .getMany();
+    // return result;
   }
   public async getPhotoById(id: string): Promise<Photo> {
     const photo = this.photoRepository.findOneBy({ id });

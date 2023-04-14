@@ -39,16 +39,15 @@ import { EntityManager, Repository } from 'typeorm';
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectEntityManager() private noticiaManager: EntityManager,
     @InjectRepository(User)
     private userRepository: Repository<User>,
-  ) {}
+  ) { }
 
   async create(createUserDto: CreateUserDto) {
     const createdUser = this.userRepository.save(createUserDto);
     return createdUser;
   }
-
+  
   async findAll(): Promise<User[]> {
     return this.userRepository.find();
   }

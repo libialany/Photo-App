@@ -30,6 +30,7 @@
   "dependencies": {
     "@casl/ability": "^6.3.3",
     "@nestjs/common": "^9.0.0",
+    "@nestjs/config": "^2.3.1",
     "@nestjs/core": "^9.0.0",
     "@nestjs/jwt": "^10.0.3",
     "@nestjs/passport": "^9.0.3",
@@ -37,6 +38,7 @@
     "@nestjs/typeorm": "^9.0.1",
     "argon2": "^0.30.3",
     "cookie-parser": "^1.4.6",
+    "dotenv": "^16.0.3",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
