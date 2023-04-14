@@ -7,7 +7,7 @@ import { UsersModule } from './user/user.module';
 import { PhotoModule } from './photos/photo.module';
 
 @Module({
-  imports: [PhotoModule, UsersModule, AuthModule],
+  imports: [dbConfig, PhotoModule, UsersModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -6,10 +6,9 @@ import {
   ManyToOne,
   JoinColumn,
   CreateDateColumn,
-  BaseEntity,
 } from 'typeorm';
 @Entity()
-export class Photo extends BaseEntity {
+export class Photo {
   @PrimaryGeneratedColumn()
   id: string;
 
@@ -41,8 +40,9 @@ export class Photo extends BaseEntity {
     nullable: true,
   })
   idUser: string;
-  constructor(data?: Partial<Photo>) {
-    super();
-    if (data) Object.assign(this, data);
-  }
+  // constructor(title: string, url: string, description: string) {
+  //   this.title = title;
+  //   this.url = url;
+  //   this.description = description;
+  // }
 }

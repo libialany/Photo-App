@@ -1,15 +1,8 @@
 import { Role } from 'src/auth/model/roles.enum';
 import { Photo } from 'src/entity/photo.entity';
-
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  BaseEntity,
-  OneToMany,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 @Entity()
-export class User extends BaseEntity {
+export class User {
   @PrimaryGeneratedColumn()
   id: string;
 
@@ -41,12 +34,5 @@ export class User extends BaseEntity {
   //   this.name = name;
   //   this.username = username;
   //   this.password = password;
-  // }
-  constructor(data?: Partial<User>) {
-    super();
-    if (data) Object.assign(this, data);
-  }
-  // constructor(data?: Partial<User>) {
-  //   super(data);
   // }
 }
