@@ -46,7 +46,11 @@ export class AuthService {
         expires: new Date(Date.now() + 1 * 24 * 60 * 1000),
       })
       .status(200)
-      .json({ accessToken: tokens.accessToken, username: newUser.username });
+      .json({
+        accessToken: tokens.accessToken,
+        username: newUser.username,
+        rol: newUser.rol,
+      });
   }
 
   async signIn(data: AuthDto, res: Response) {
@@ -78,6 +82,7 @@ export class AuthService {
       res.json({
         accessToken: tokens.accessToken,
         username: foundUser.username,
+        rol: foundUser.rol,
       });
     } else {
       res.sendStatus(401);
@@ -140,9 +145,11 @@ export class AuthService {
       secure: false, //remenber
       maxAge: 24 * 60 * 60 * 1000,
     });
-    res
-      .status(200)
-      .json({ accessToken: tokens.accessToken, username: foundUser.username });
+    res.status(200).json({
+      accessToken: tokens.accessToken,
+      username: foundUser.username,
+      rol: foundUser.rol,
+    });
   }
   async logout(req: Request, res: Response) {
     const cookies = req.cookies;
@@ -188,7 +195,7 @@ export class AuthService {
         },
         {
           secret: process.env.secret,
-          expiresIn: process.env.token_expiresIn,
+          expiresIn: process.env.auth_token_expires_in,
         },
       ),
       this.jwtService.signAsync(

@@ -1,0 +1,12 @@
+[
+    {
+       "id": 1,
+       "nombre": "Salud",
+       "abreviatura": "S"
+    },
+    {
+        "id": 2,
+        "nombre": "Cultura",
+        "abreviatura": "C"
+    }
+]
