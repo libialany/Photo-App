@@ -46,7 +46,7 @@ export class AuthService {
         expires: new Date(Date.now() + 1 * 24 * 60 * 1000),
       })
       .status(200)
-      .send({ finalizado: true, mensaje: 'ok', datos: tokens.accessToken });
+      .json({ accessToken: tokens.accessToken });
   }
 
   async signIn(data: AuthDto, res: Response) {
@@ -138,7 +138,7 @@ export class AuthService {
       secure: false, //remenber
       maxAge: 24 * 60 * 60 * 1000,
     });
-    res.status(200).json({ msg: 'ok', username: user.username });
+    res.status(200).json({ accessToken: tokens.accessToken });
   }
   async logout(req: Request, res: Response) {
     const cookies = req.cookies;
