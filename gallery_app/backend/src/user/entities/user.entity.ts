@@ -20,7 +20,7 @@ export class User {
     enum: Role,
     default: Role.User,
   })
-  role: Role[];
+  rol: Role;
 
   @Column({ default: '' })
   refreshToken: string;

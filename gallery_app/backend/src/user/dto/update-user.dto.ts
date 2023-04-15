@@ -4,6 +4,6 @@ export class UpdateUserDto {
   userId: string;
   username: string;
   password: string;
-  role: Role[];
+  rol: Role;
   refreshToken: string;
 }

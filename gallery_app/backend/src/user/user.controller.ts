@@ -39,11 +39,11 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @Get('rol')
   async findRol(@Req() req: Request) {
-    if (!req.user || !req.user['roles'] || req.user['roles'] === '') {
+    if (!req.user || !req.user['rol'] || req.user['rol'] === '') {
       throw new BadRequestException('No tienes permisos');
     }
     return await {
-      rol: req.user['roles'],
+      rol: req.user['rol'],
     };
   }
   // GET users

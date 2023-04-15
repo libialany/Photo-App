@@ -11,5 +11,5 @@ export const dbConfig = TypeOrmModule.forRoot({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
   entities: [User, Photo],
-  synchronize: false,
+  synchronize: true,
 });

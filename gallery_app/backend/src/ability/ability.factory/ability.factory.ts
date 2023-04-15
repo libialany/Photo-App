@@ -25,7 +25,7 @@ export class AbilityFactory {
     const { can, build } = new AbilityBuilder<Ability<[Action, Subjects]>>(
       Ability as AbilityClass<AppAbility>,
     );
-    if (user.roles.includes(Role.Admin)) {
+    if (user.rol.includes(Role.Admin)) {
       // CRU permission to ADMIN Users
       can(Action.Create, 'all');
       can(Action.Read, 'all');
@@ -48,7 +48,7 @@ export class AbilityFactory {
     const { can, build } = new AbilityBuilder<Ability<[Action, Subjects]>>(
       Ability as AbilityClass<AppAbility>,
     );
-    if (user.roles.includes(Role.Admin) || user.roles.includes(Role.User)) {
+    if (user.rol.includes(Role.Admin) || user.rol.includes(Role.User)) {
       can(Action.Create, Photo);
     }
     return build({
@@ -60,7 +60,7 @@ export class AbilityFactory {
     const { can, build } = new AbilityBuilder<Ability<[Action, Subjects]>>(
       Ability as AbilityClass<AppAbility>,
     );
-    if (user.roles.includes(Role.Admin)) {
+    if (user.rol.includes(Role.Admin)) {
       can(Action.Read, Photo);
     }
     return build({

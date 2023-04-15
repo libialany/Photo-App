@@ -61,17 +61,27 @@ export class UsersService {
     return this.userRepository.findOneBy({ username });
   }
 
+  async findByRefreshToken(rf: string): Promise<User> {
+    return this.userRepository.findOneBy({ refreshToken: rf });
+  }
+
   async update(id: string, updateUserDto: UpdateUserDto) {
     const foundUser = await this.userRepository.findOneBy({ id: id });
     if (!foundUser) throw new Error('User not found');
     const newUser = new User();
     newUser.username = foundUser.username;
     newUser.password = foundUser.password;
-    newUser.role = foundUser.role;
+    newUser.rol = foundUser.rol;
     newUser.refreshToken = updateUserDto.refreshToken;
     return this.userRepository.update(id, newUser);
   }
-
+  async updateToken(id: string, refreshToken: string) {
+    const foundUser = await this.userRepository.findOneBy({ id: id });
+    if (!foundUser) throw new Error('User not found');
+    const newUser = new User();
+    newUser.refreshToken = refreshToken;
+    return this.userRepository.update(id, newUser);
+  }
   async remove(id: string): Promise<void> {
     await this.userRepository.delete(id);
   }

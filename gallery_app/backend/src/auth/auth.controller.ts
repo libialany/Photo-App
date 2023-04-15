@@ -23,7 +23,7 @@ import {
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 class User {
   username: string;
-  roles: Role[];
+  rol: Role;
   isAdmin: boolean;
 }
 
@@ -44,16 +44,13 @@ export class AuthController {
     return this.authService.signIn(data, res);
   }
 
-  @Post('refreshtoken')
+  @Post('refresh')
   refreshtoken(@Req() req: Request, @Res() res: Response) {
-    console.log(req.cookies['access_token']);
-    //return this.authService.refreshToken(data, res);
-    return res.status(200).json({ finalizado: true, mensaje: 'ok' });
+    return this.authService.refreshToken(req, res);
   }
   @UseGuards(JwtAuthGuard)
   @Get('logout')
   async logout(@Req() req: Request, @Res() res: Response) {
-    res.clearCookie('access_token');
     const idUsuario = req.headers.authorization
       ? JSON.parse(
           Buffer.from(
@@ -62,10 +59,7 @@ export class AuthController {
           ).toString(),
         ).sub
       : null;
-    this.authService.logout(idUsuario);
-    return res.status(200).json({
-      url: `salir sesion`,
-    });
+    return await this.authService.logout(req, res);
   }
   @HasRoles(Role.User, Role.Admin)
   @UseGuards(JwtAuthGuard, RolesGuard)
@@ -74,7 +68,7 @@ export class AuthController {
     const user = req.user;
     const newUser = new User();
     newUser.isAdmin = user['isAdmin'];
-    newUser.roles = user['roles'];
+    newUser.rol = user['rol'];
     newUser.isAdmin = user['username'];
     const ability = this.abilityFactory.createForUser(newUser);
     const isAllow = ability.can(Action.Read, newUser);

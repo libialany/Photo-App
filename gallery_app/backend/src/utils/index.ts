@@ -1,7 +1,7 @@
 import { User } from 'src/auth/dto/user-payload.dto';
 const getUser = (user) => {
   const newUser = new User();
-  newUser.roles = user['roles'];
+  newUser.rol = user['rol'];
   newUser.username = user['username'];
   return newUser;
 };
