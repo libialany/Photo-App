@@ -46,7 +46,7 @@ export class AuthService {
         expires: new Date(Date.now() + 1 * 24 * 60 * 1000),
       })
       .status(200)
-      .json({ accessToken: tokens.accessToken });
+      .json({ accessToken: tokens.accessToken, username: newUser.username });
   }
 
   async signIn(data: AuthDto, res: Response) {
@@ -75,8 +75,10 @@ export class AuthService {
         secure: false, //remenber
         maxAge: 24 * 60 * 60 * 1000,
       });
-
-      res.json({ accessToken: tokens.accessToken });
+      res.json({
+        accessToken: tokens.accessToken,
+        username: foundUser.username,
+      });
     } else {
       res.sendStatus(401);
     }
@@ -138,7 +140,9 @@ export class AuthService {
       secure: false, //remenber
       maxAge: 24 * 60 * 60 * 1000,
     });
-    res.status(200).json({ accessToken: tokens.accessToken });
+    res
+      .status(200)
+      .json({ accessToken: tokens.accessToken, username: foundUser.username });
   }
   async logout(req: Request, res: Response) {
     const cookies = req.cookies;
