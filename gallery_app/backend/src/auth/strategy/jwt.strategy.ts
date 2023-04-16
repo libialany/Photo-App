@@ -13,14 +13,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       secretOrKey: process.env.secret,
     });
   }
-  private static extractJWTFromCookie(req: Request): string | null {
-    if (req.cookies && req.cookies.access_token) {
-      return req.cookies.access_token;
-    }
-    return null;
-  }
   async validate(payload: any) {
-    // console.log('>payload', payload);
     return payload;
   }
 }

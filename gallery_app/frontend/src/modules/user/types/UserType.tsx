@@ -1,5 +1,5 @@
 export interface UserType {
-    access_token: string | undefined
+    accessToken: string | undefined
     username: string
-    roles: string | null | undefined
+    rol: string | null | undefined
 }

@@ -53,24 +53,23 @@ export const useSession = () => {
 
   const removeCookiesSesion = () => {
     removeCookie('access_token')
+    removeCookie('access_token_frontend')
   }
 
   const cerrarSesion = async () => {
     try {
-      const token = readCookie('access_token')
-      console.log('XD');
+      const token = readCookie('access_token_frontend')
+      removeCookiesSesion()
 
-      //removeCookiesSesion()
-
-      // const respuesta = await Servicios.get({
-      //   headers: {
-      //     accept: 'application/json',
-      //     Authorization: `Bearer ${token}`,
-      //   },
-      //   url: `${Constantes.baseUrl}/logout`,
-      // })
-      // console.log(`finalizando con respuesta`, respuesta)
-
+      const respuesta = await Servicios.get({
+        headers: {
+          accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        url: 'http://localhost:5000/auth/logout',
+      })
+      console.log(`finalizando con respuesta`, respuesta)
+      router.reload()
       // if (respuesta?.url) {
       //   window.location.href = respuesta?.url
       // } else {
