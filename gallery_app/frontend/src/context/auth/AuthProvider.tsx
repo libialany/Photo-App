@@ -37,8 +37,10 @@ export const AuthProvider = ({ children }: AuthContextType) => {
         
         try {
             const response = await axios.post('http://localhost:5000/auth/signin', {
-                username:'3',
-                password:'3',
+                username:'1',
+                password:'1',
+            },{
+                withCredentials:true
             })
                 .then(function (response) {
                     saveCookie('access_token_frontend', response.data?.accessToken)
@@ -78,6 +80,7 @@ export const AuthProvider = ({ children }: AuthContextType) => {
             return
         }
         try {
+            
             const respuestaPermisos = await sesionRequest({
                 url: 'http://localhost:5000/auth/profile',
             }) 

@@ -71,13 +71,11 @@ export class UsersController {
   //@UseGuards(JwtAuthGuard) //, RolesGuard)
   @Get('profile')
   findById(@Req() req: Request) {
-    console.log(req?.cookies);
-    
-    // if (!req.user || !req.user['sub']) {
-    //   throw new BadRequestException('No tienes permisos');
-    // }
-    //const user = this.usersService.findByUsername(req.user['username']);
-    return '456';//user;
+    if (!req.user || !req.user['sub']) {
+      throw new BadRequestException('No tienes permisos');
+    }
+    const user = this.usersService.findByUsername(req.user['username']);
+    return user;
   }
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {

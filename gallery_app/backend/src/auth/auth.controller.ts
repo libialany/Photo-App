@@ -21,6 +21,7 @@ import {
   Action,
 } from 'src/ability/ability.factory/ability.factory';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
+import { Cookies } from 'src/custom-decorators/cookies';
 class User {
   username: string;
   rol: Role;
@@ -45,8 +46,11 @@ export class AuthController {
   }
 
   @Post('refresh')
-  async refreshtoken(@Req() req: Request, @Res() res: Response) {
-    return await this.authService.refreshToken(req, res);
+  async refreshtoken(
+    @Cookies('access_token') refreshtoken: string,
+    @Res() res: Response,
+  ) {
+    return await this.authService.refreshToken(refreshtoken, res);
   }
   @UseGuards(JwtAuthGuard)
   @Get('logout')

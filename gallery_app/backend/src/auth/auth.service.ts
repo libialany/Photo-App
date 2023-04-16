@@ -9,6 +9,7 @@ import { UsersService } from 'src/user/user.service';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { Response, Request } from 'express';
 import { Role } from './model/roles.enum';
+import { log } from 'console';
 
 @Injectable()
 export class AuthService {
@@ -17,8 +18,6 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
   async signUp(createUserDto: CreateUserDto, res: Response): Promise<any> {
-    //// Check if user exists
-
     const userExists = await this.usersService.findByUsername(
       createUserDto.username,
     );
@@ -39,7 +38,7 @@ export class AuthService {
     );
     await this.updateRefreshToken(newUser.id, tokens.refreshToken);
     return res
-      .cookie('access_token', tokens.accessToken, {
+      .cookie('access_token', tokens.refreshToken, {
         httpOnly: true,
         secure: false,
         sameSite: 'lax',
@@ -73,11 +72,16 @@ export class AuthService {
       );
       // Saving refreshToken with current user
       await this.updateRefreshToken(foundUser.id, tokens.refreshToken);
+      // console.log(
+      //   '>>>>estoy es lo que me estoy guardando',
+      //   tokens.refreshToken,
+      // );
       res.cookie('access_token', tokens.refreshToken, {
         httpOnly: true,
-        sameSite: false,
+        sameSite: true,
         secure: false, //remenber
-        maxAge: 24 * 60 * 60 * 1000,
+        maxAge: 60 * 24 * 60 * 60 * 1000,
+        // maxAge: 24 * 60 * 60 * 1000,
       });
       res.json({
         accessToken: tokens.accessToken,
@@ -88,19 +92,19 @@ export class AuthService {
       res.sendStatus(401);
     }
   }
-  async refreshToken(req: Request, res: Response) {
-    const cookies = req.cookies;
-    if (!cookies || !cookies['access_token']) return res.sendStatus(401);
-    const refreshToken = cookies['access_token'];
-
-    const foundUser = await this.usersService.findByRefreshToken(refreshToken);  
-    if (!foundUser) return res.sendStatus(403);
-    const user = await this.jwtService.verifyAsync(foundUser.refreshToken, {
+  async refreshToken(refreshToken: string, res: Response) {
+    //console.log('>>>>estoy es lo que me estoy recuperando de mi token server', req.cookies,res );
+    if (!refreshToken) return res.sendStatus(401);
+    const user = await this.jwtService.verifyAsync(refreshToken, {
       secret: process.env.refresh_token,
     });
+    // FIRMADO VALIDO
     if (!user) res.sendStatus(403);
-
-    // create JWTs
+    const foundUser = await this.usersService.findByRefreshToken(refreshToken);
+    if (!foundUser) return res.sendStatus(403);
+    //create JWTs
+    console.log('este es el usuario', user);
+    
     const tokens = await this.getTokens(
       foundUser.id,
       foundUser.username,
@@ -108,16 +112,21 @@ export class AuthService {
     );
     // Saving refreshToken with current user
     await this.updateRefreshToken(foundUser.id, tokens.refreshToken);
+ console.log('Ya estan ....', tokens.accessToken);
+ 
     res.cookie('access_token', tokens.refreshToken, {
       httpOnly: true,
-      sameSite: false,
+      sameSite: true,
       secure: false, //remenber
-      maxAge: 24 * 60 * 60 * 1000,
+      maxAge: 60 * 24 * 60 * 60 * 1000,
+      // maxAge: 24 * 60 * 60 * 1000,
     });
+    console.log('paso.......');
     res.status(200).json({
       accessToken: tokens.accessToken,
       username: foundUser.username,
       rol: foundUser.rol,
+      msg: 'excelante'
     });
   }
   async logout(req: Request, res: Response) {

@@ -84,11 +84,13 @@ export const useSession = () => {
   const actualizarSesion = async () => {
     console.log(`Update token 🚨`)
     try {
+      console.log('>>>>>>>>>>>>>>>>>estamos entrando');
       const respuesta = await axios('http://localhost:5000/auth/refresh', {
         method: "post",
         withCredentials: true
       })
-      console.log('>', respuesta.data?.accessToken);
+      console.log('lllllllllllllllllllllll',respuesta.data);
+      console.log('>>>>>>>>>>>>>>>>>estams refrescando', respuesta.data?.accessToken);
       saveCookie('access_token_frontend', respuesta.data?.accessToken)
     } catch (e) {
       await cerrarSesion()
