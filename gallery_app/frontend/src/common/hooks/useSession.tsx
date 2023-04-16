@@ -52,13 +52,14 @@ export const useSession = () => {
   }
 
   const removeCookiesSesion = () => {
-    removeCookie('access_token')
     removeCookie('access_token_frontend')
   }
 
   const cerrarSesion = async () => {
     try {
       const token = readCookie('access_token_frontend')
+      console.log('XD');
+
       removeCookiesSesion()
 
       const respuesta = await Servicios.get({
@@ -66,15 +67,15 @@ export const useSession = () => {
           accept: 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        url: 'http://localhost:5000/auth/logout',
+        url: 'http://',
       })
       console.log(`finalizando con respuesta`, respuesta)
-      router.reload()
-      // if (respuesta?.url) {
-      //   window.location.href = respuesta?.url
-      // } else {
-      //   router.reload()
-      // }
+
+      if (respuesta?.url) {
+        window.location.href = respuesta?.url
+      } else {
+        router.reload()
+      }
     } catch (e) {
       console.log(`Error al cerrar sesión: `, e)
     }
