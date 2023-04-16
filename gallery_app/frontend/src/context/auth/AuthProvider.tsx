@@ -37,8 +37,8 @@ export const AuthProvider = ({ children }: AuthContextType) => {
         
         try {
             const response = await axios.post('http://localhost:5000/auth/signin', {
-                username:'1',
-                password:'1',
+                username:'3',
+                password:'3',
             },{
                 withCredentials:true
             })
