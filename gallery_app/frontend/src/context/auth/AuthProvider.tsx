@@ -33,13 +33,15 @@ export const AuthProvider = ({ children }: AuthContextType) => {
     const { sesionRequest, removeCookiesSesion } = useSession()
     //const login = async ({ username, password }: LoginType) => {
     const login = async () => {
+        console.log('>>>');
+        
         try {
             const response = await axios.post('http://localhost:5000/auth/signin', {
                 username:'3',
                 password:'3',
             })
                 .then(function (response) {
-                    saveCookie('access_token', response.data?.accessToken)
+                    saveCookie('access_token_frontend', response.data?.accessToken)
                     // Cookies.set('access_token', response.data?.datos, { expires: 7 });
                     // #TODO
                     // router.replace({
@@ -62,7 +64,7 @@ export const AuthProvider = ({ children }: AuthContextType) => {
             setRol(respuestaPermisos.rol)
             const newUser: UserType = {
                 username,
-                access_token:readCookie('access_token'),
+                access_token:readCookie('access_token_frontend'),
                 roles: respuestaPermisos.rol
             }
             setUser(newUser)

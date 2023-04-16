@@ -36,15 +36,16 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
   // GET users
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   @Get('rol')
   async findRol(@Req() req: Request) {
-    if (!req.user || !req.user['rol'] || req.user['rol'] === '') {
-      throw new BadRequestException('No tienes permisos');
-    }
-    return await {
-      rol: req.user['rol'],
-    };
+    // if (!req.user || !req.user['rol'] || req.user['rol'] === '') {
+    //   throw new BadRequestException('No tienes permisos');
+    // }
+    // return await {
+    //   rol: req.user['rol'],
+    // };
+    return 123;
   }
   // GET users
   // @HasRoles(Role.Admin)
@@ -65,15 +66,18 @@ export class UsersController {
     // }
     return await this.usersService.findAll();
   }
-  @HasRoles(Role.Admin)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @HasRoles(Role.Admin)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
+  //@UseGuards(JwtAuthGuard) //, RolesGuard)
   @Get('profile')
   findById(@Req() req: Request) {
-    if (!req.user || !req.user['sub']) {
-      throw new BadRequestException('No tienes permisos');
-    }
-    const user = this.usersService.findById(req.user['sub']);
-    return user;
+    console.log(req?.cookies);
+    
+    // if (!req.user || !req.user['sub']) {
+    //   throw new BadRequestException('No tienes permisos');
+    // }
+    //const user = this.usersService.findByUsername(req.user['username']);
+    return '456';//user;
   }
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {

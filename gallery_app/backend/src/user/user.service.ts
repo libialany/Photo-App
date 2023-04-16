@@ -82,6 +82,9 @@ export class UsersService {
     newUser.refreshToken = refreshToken;
     return this.userRepository.update(id, newUser);
   }
+
+  
+
   async remove(id: string): Promise<void> {
     await this.userRepository.delete(id);
   }

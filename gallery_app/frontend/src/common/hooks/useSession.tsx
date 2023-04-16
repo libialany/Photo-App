@@ -6,7 +6,6 @@ import {
 import axios from 'axios'
 import { verifyToken } from '../../utils/token'
 import { useRouter } from 'next/router'
-
 export const useSession = () => {
   const router = useRouter()
   const sesionRequest = async ({
@@ -19,14 +18,13 @@ export const useSession = () => {
     withCredentials,
   }: peticionFormatoMetodo) => {
     try {
-      if (!verifyToken(readCookie('access_token') ?? '')) {
+      if (!verifyToken(readCookie('access_token_frontend') ?? '')) {
         console.log(`Token expired ⏳`)
         await actualizarSesion()
       }
-
       const _headers = {
         accept: 'application/json',
-        Authorization: `Bearer ${readCookie('access_token') ?? ''}`,
+        Authorization: `Bearer ${readCookie('access_token_frontend') ?? ''}`,
         withCredentials: true
       }
       console.log(`enviando 🔐🌍`, body, tipo, url, _headers)
@@ -61,7 +59,7 @@ export const useSession = () => {
     try {
       const token = readCookie('access_token')
       console.log('XD');
-      
+
       //removeCookiesSesion()
 
       // const respuesta = await Servicios.get({
@@ -86,11 +84,13 @@ export const useSession = () => {
   const actualizarSesion = async () => {
     console.log(`Update token 🚨`)
     try {
-      const respuesta = await axios.post(
-        `http://localhost:5000/auth/refresh`)
-      console.log('>',respuesta.data?.accessToken);
-      saveCookie('access_token', respuesta.data?.accessToken)
-      } catch (e) {
+      const respuesta = await axios('http://localhost:5000/auth/refresh', {
+        method: "post",
+        withCredentials: true
+      })
+      console.log('>', respuesta.data?.accessToken);
+      saveCookie('access_token_frontend', respuesta.data?.accessToken)
+    } catch (e) {
       await cerrarSesion()
     }
   }

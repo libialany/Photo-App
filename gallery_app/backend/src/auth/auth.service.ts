@@ -87,44 +87,13 @@ export class AuthService {
     } else {
       res.sendStatus(401);
     }
-    /* const user = await this.usersService.findByUsername(data.username);
-    if (!user) throw new BadRequestException('User does not exist');
-    const passwordMatches = await argon2.verify(user.password, data.password);
-    if (!passwordMatches)
-      throw new BadRequestException('Password is incorrect');
-    const tokens = await this.getTokens(user.id, user.username, user.role);
-    await this.updateRefreshToken(user.id, tokens.refreshToken);
-    return res
-      .cookie('access_token', tokens.accessToken, {
-        httpOnly: true,
-        secure: false,
-        sameSite: 'lax',
-        expires: new Date(Date.now() + 1 * 24 * 60 * 1000),
-      })
-      .status(200)
-      .send({ finalizado: true, mensaje: 'ok', datos: tokens.accessToken }); */
   }
   async refreshToken(req: Request, res: Response) {
-    // FIX
-    // console.log(data);
-    // const user = await this.usersService.findByUsername(data.username);
-    // if (!user) throw new BadRequestException('User does not exist');
-    // const tokens = await this.getTokens(user.id, user.username, user.role);
-    // await this.updateRefreshToken(user.id, tokens.refreshToken);
-    // return res
-    //   .cookie('access_token', tokens.accessToken, {
-    //     httpOnly: true,
-    //     secure: false,
-    //     sameSite: 'lax',
-    //     expires: new Date(Date.now() + 1 * 24 * 60 * 1000),
-    //   })
-    //   .status(200)
-    //   .send({ finalizado: true, mensaje: 'ok', datos: tokens.accessToken });
-    // NEW VERSIONs
     const cookies = req.cookies;
     if (!cookies || !cookies['access_token']) return res.sendStatus(401);
     const refreshToken = cookies['access_token'];
-    const foundUser = await this.usersService.findByRefreshToken(refreshToken);
+
+    const foundUser = await this.usersService.findByRefreshToken(refreshToken);  
     if (!foundUser) return res.sendStatus(403);
     const user = await this.jwtService.verifyAsync(foundUser.refreshToken, {
       secret: process.env.refresh_token,
@@ -179,9 +148,6 @@ export class AuthService {
   }
 
   async updateRefreshToken(userId: string, refreshToken: string) {
-    // const newUser = new UpdateUserDto();
-    // const hashedRefreshToken = refreshToken; //await this.hashData(refreshToken);
-    // newUser.refreshToken = hashedRefreshToken;
     await this.usersService.updateToken(userId, refreshToken);
   }
 
