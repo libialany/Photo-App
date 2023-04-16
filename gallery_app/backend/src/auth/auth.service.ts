@@ -1,6 +1,10 @@
 import { config } from 'dotenv';
 config();
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import * as argon2 from 'argon2';
 import { JwtService } from '@nestjs/jwt';
 import { AuthDto } from './dto/auth.dto';
@@ -9,12 +13,13 @@ import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { Response, Request } from 'express';
 import { Role } from './model/roles.enum';
 
+
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
-  ) { }
+  ) {}
   async signUp(createUserDto: CreateUserDto, res: Response): Promise<any> {
     const userExists = await this.usersService.findByUsername(
       createUserDto.username,
@@ -89,12 +94,19 @@ export class AuthService {
   }
   async refreshToken(refreshToken: string, res: Response) {
     if (!refreshToken) return res.sendStatus(401);
+    const decoded = this.jwtService.decode(refreshToken);
+    const expirationDate = new Date(decoded['exp'] * 1000); // convert expiration timestamp to date object
+    const now = new Date();
+    if (expirationDate < now) {
+      throw new UnauthorizedException('REFRESH_TOKEN_EXPIRED');
+    }
     const user = await this.jwtService.verifyAsync(refreshToken, {
       secret: process.env.refresh_token,
     });
     if (!user) res.sendStatus(403); // refuses to authorize it
     // find user
     const foundUser = await this.usersService.findByRefreshToken(refreshToken);
+
     if (!foundUser) return res.sendStatus(403);
     //create JWTs
     const tokens = await this.getTokens(

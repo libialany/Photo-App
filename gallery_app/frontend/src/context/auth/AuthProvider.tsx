@@ -9,8 +9,6 @@ import router, { useRouter } from 'next/router'
 import {
     LoginType
 } from '../../modules/login/types/loginTypes'
-import axios from 'axios'
-import Cookies from 'js-cookie';
 
 import { UserType } from '@/modules/user/types/UserType';
 import { useSession } from '@/common/hooks/useSession';
@@ -45,39 +43,34 @@ export const AuthProvider = ({ children }: AuthContextType) => {
             console.log(`Error al iniciar sesión: `, e)
         }
     }
-    const setRolUser = async (username: string) => {
-        try {
-            const respuestaPermisos = await sesionRequest({
-                url: "http://localhost:5000/users/rol",
-            })
-            setRol(respuestaPermisos.rol)
-            const newUser: UserType = {
-                username,
-                accessToken: readCookie('access_token_frontend'),
-                rol: respuestaPermisos.rol
-            }
-            setUser(newUser)
-        } catch (error) {
-            console.log(error);
+    const setRolUser = async () => {
+        const responseUser = await sesionRequest({
+            url: 'http://localhost:5000/users/profile',
+        })
+
+        if (!responseUser?.rol) {
+            throw new Error('Error no roles')
         }
+        setUser(responseUser)
+        console.log(
+            `rol defined  👨‍💻: ${responseUser?.rol}`
+        )
+        setRol(responseUser?.rol)
+        saveCookie('rol', responseUser?.rol)
     }
     const initUser = async () => {
-        const token = readCookie('access_token');
+        const token = readCookie('access_token_frontend');
         if (!token) {
             return
         }
         try {
-
-            const respuestaPermisos = await sesionRequest({
-                url: 'http://localhost:5000/auth/profile',
-            })
-            // #TODO 
-            setRolUser(respuestaPermisos.username)
+            await setRolUser()
         } catch (error: Error | any) {
             console.log(`Error durante inicializarUsuario 🚨`, typeof error, error)
-            // await router.replace({
-            //     pathname: '/login',
-            // })
+            await router.replace({
+                pathname: '/',
+            })
+            setUser(null)
             throw error
         }
     }
