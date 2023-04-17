@@ -31,7 +31,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\"name\":\"marta perez\",\n\"username\":\"3\",\n\"password\":\"123admin3\",\n\"role\":[\"user\"],\n\"refreshToken\":\"\"\n}",
+					"raw": "{\n\"name\":\"2\",\n\"username\":\"2\",\n\"password\":\"2\",\n\"rol\":\"user\",\n\"refreshToken\":\"\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -59,7 +59,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\"username\":\"3\",\n\"password\":\"123admin3\"\n}",
+					"raw": "{\n\"username\":\"2\",\n\"password\":\"2\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -88,7 +88,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInVzZXJuYW1lIjoiMyIsInJvbGVzIjoidXNlciIsImlhdCI6MTY4MTM4MTM2MCwiZXhwIjoxNjgxNDY3NzYwfQ.6KBwNeC5Nh0CS1OJjSP_qD_Fo95dY5JIdMosoGiK9wg",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsInVzZXJuYW1lIjoiMiIsInJvbCI6InVzZXIiLCJpYXQiOjE2ODE2OTIwNjEsImV4cCI6MTY4MTY5MjA4MX0.8kWG7tDrObXZAwNY_CWctfl1qwohBfzkL6mYdtzJC4Y",
 							"type": "string"
 						}
 					]
@@ -101,7 +101,7 @@
 						{
 							"key": "image",
 							"type": "file",
-							"src": "/home/nora/Pictures/Screenshots/Screenshot from 2023-04-06 06-39-13.png"
+							"src": "/home/nora/Pictures/Screenshots/Screenshot from 2023-04-14 05-49-03.png"
 						},
 						{
 							"key": "title",
@@ -128,6 +128,102 @@
 					"port": "5000",
 					"path": [
 						"photo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "refresh",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/auth/refresh",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"auth",
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UserLogout",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/auth/logout",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"auth",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "profile",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjUsInVzZXJuYW1lIjoiMyIsInJvbCI6InVzZXIiLCJpYXQiOjE2ODE2ODEyNzgsImV4cCI6MTY4MTY4MTI5OH0.e7kMylQ_BDepVxYyUA_5xRXUUOeirXPU3eog46fVQL8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/users/profile",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"users",
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getImageByUSer",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsInVzZXJuYW1lIjoiMiIsInJvbCI6InVzZXIiLCJpYXQiOjE2ODE3MjYwNzEsImV4cCI6MTY4MTcyNjA5MX0.GRgedcSzGPqB4FOQPh_oRgH7ghIxULjC54ADMzN8r-0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/photo/5",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"photo",
+						"5"
 					]
 				}
 			},
