@@ -43,6 +43,14 @@ export default function Album() {
       console.log(`Error al iniciar sesión: `, e)
     }
   }
+  const onLogOut = async() => {
+    //localhost:5000/auth/logout
+    const response = await Servicios.get({
+      url: 'http://localhost:5000/auth/logout',
+      headers: {},
+    })
+    setCards(response)
+  }
   useEffect(() => { loadData() }, [userLogged, open, url])
   return (
     <>
@@ -50,11 +58,12 @@ export default function Album() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <AppBar position="relative">
-          <Toolbar>
+          <Toolbar sx={{ alignItems: 'center', paddingLeft: 1 }}>
             <CameraIcon sx={{ mr: 2 }} />
             <Typography variant="h6" color="inherit" noWrap>
               Album App
             </Typography>
+            {userLogged && <Button size="small" variant="text" sx={{ color: 'white' }} onClick={onLogOut}>Log Out</Button>}
           </Toolbar>
         </AppBar>
         <main>
@@ -87,7 +96,13 @@ export default function Album() {
                 spacing={2}
                 justifyContent="center"
               >
-                {userLogged ? (<p>Hi {userLogged.username}</p>) : (<Button variant="contained" onClick={() => {
+                {userLogged ? (<>
+                  <Stack spacing={2} direction="row">
+                    <Typography variant="h6" align="center" gutterBottom>
+                      Hi
+                    </Typography>
+                  </Stack>
+                </>) : (<Button variant="contained" onClick={() => {
                   setOpen(true)
                 }}>Sign In</Button>)}
               </Stack>
