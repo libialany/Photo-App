@@ -50,10 +50,10 @@ export class PhotoService {
       .getMany();
     return result;
   }
-  public async getPhotoById(id: string): Promise<Photo> {
-    const photo = this.photoRepository.findOneBy({ id });
-    if (!photo) throw new Error('Photo not found');
-    return photo;
+  public async getPhotoByUserId(id: string): Promise<Photo[]> {
+    const photos = this.photoRepository.findBy({ idUser: id });
+    if (!photos) throw new Error('Photo not found');
+    return photos;
   }
 
   public async deletePhotoById(id: string): Promise<void> {

@@ -28,7 +28,7 @@ interface AuthContextType {
 
 export const AuthProvider = ({ children }: AuthContextType) => {
     const [user, setUser] = useState<UserType | null>(null)
-    const [rol, setRol] = useState<string | null>()
+    const [rol, setRol] = useState<string | null>(null)
     const { sesionRequest, removeCookiesSesion } = useSession()
     const login = async ({ username, password }: LoginType) => {
         try {
@@ -39,6 +39,8 @@ export const AuthProvider = ({ children }: AuthContextType) => {
             })
             saveCookie('access_token_frontend', response?.accessToken)
             setUser(response)
+            console.log('Good', response);
+
         } catch (e) {
             console.log(`Error al iniciar sesión: `, e)
         }
@@ -70,6 +72,7 @@ export const AuthProvider = ({ children }: AuthContextType) => {
             await router.replace({
                 pathname: '/',
             })
+            setRol(null)
             setUser(null)
             throw error
         }

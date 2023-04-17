@@ -35,13 +35,12 @@ export class PhotoController {
     private photoService: PhotoService,
     private usersService: UsersService,
   ) {}
-
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
-  async getPhotoDetalle(@Param('id') id: string): Promise<Photo> {
-    return this.photoService.getPhotoById(id);
+  async getPhotoDetalle(@Param('id') id: string): Promise<Photo[]> {
+    return this.photoService.getPhotoByUserId(id);
   }
-  // @HasRoles(Role.Admin, Role.User)
-  // @UseGuards(JwtAuthGuard, RolesGuard)
+
   @UseGuards(JwtAuthGuard)
   @Post()
   @UseInterceptors(
@@ -73,7 +72,11 @@ export class PhotoController {
     }
     // request
     const user = await this.usersService.findByUsername(req.user['username']);
-    const imageUrl = process.env.DST_IMAGES + file.filename;
+    console.log(user);
+    
+    const imageUrl = process.env.DST_IMAGES + '/' + file.filename;
+    console.log(imageUrl);
+    
     return this.photoService.addPhoto(imageUrl, noticia, user.id);
   }
 
@@ -112,22 +115,11 @@ export class PhotoController {
     const imageUrl = process.env.DST_IMAGES + file.filename;
     return this.photoService.updatePhoto(imageUrl, photo, user.id);
   }
-  // TODO
-  // @HasRoles(Role.Admin)
-  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   async allPhotos() {
     return this.photoService.getPhotos();
   }
 
-  // @Get('banner')
-  // async allImagesBanner() {
-  //   return this.photoService.getImagesBanner();
-  // }
-  // @Get('search')
-  // async getPhotoPorTitulo(@Query() query: GetPhotoDTO) {
-  //   return this.photoService.getPhotosInput(query.titulo);
-  // }
   @Delete(':id')
   async deleteProfile(@Param('id') id: string) {
     return this.photoService.deletePhotoById(id);

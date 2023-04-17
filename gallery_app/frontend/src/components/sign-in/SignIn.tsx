@@ -13,6 +13,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Modal from '@mui/material/Modal';
+import { Dispatch, SetStateAction, useState } from 'react';
+import { useAuth } from '@/context/auth/AuthProvider';
 
 
 const theme = createTheme();
@@ -20,16 +22,24 @@ interface ModalProps {
   open: boolean;
   CloseModal: any;
 }
+
 export default function SignIn({ open, CloseModal }: ModalProps) {
   const handleClose = () => CloseModal(false);
-  const [showPassword, setShowPassword] = React.useState(false)
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const [username, setUserName] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const { login } = useAuth()
+  const clearInputs = () => {
+    setPassword('')
+    setUserName('')
+  }
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+    await login({
+      username,
+      password
     });
+    handleClose()
+    clearInputs()
   };
 
   return (
@@ -61,10 +71,11 @@ export default function SignIn({ open, CloseModal }: ModalProps) {
                 margin="normal"
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
+                id="username"
+                name="username"
+                label="Username"
+                variant="filled"
+                onChange={e => setUserName(e.target.value)}
                 autoFocus
               />
               <TextField
@@ -75,7 +86,8 @@ export default function SignIn({ open, CloseModal }: ModalProps) {
                 label="Password"
                 type="password"
                 id="password"
-                autoComplete="current-password"
+                variant="filled"
+                onChange={e => setPassword(e.target.value)}
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}

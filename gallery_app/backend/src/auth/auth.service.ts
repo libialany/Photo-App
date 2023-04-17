@@ -13,7 +13,6 @@ import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { Response, Request } from 'express';
 import { Role } from './model/roles.enum';
 
-
 @Injectable()
 export class AuthService {
   constructor(
@@ -53,6 +52,7 @@ export class AuthService {
         accessToken: tokens.accessToken,
         username: newUser.username,
         rol: newUser.rol,
+        id: newUser.id,
       });
   }
 
@@ -87,6 +87,7 @@ export class AuthService {
         accessToken: tokens.accessToken,
         username: foundUser.username,
         rol: foundUser.rol,
+        id: foundUser.id,
       });
     } else {
       res.sendStatus(401);
@@ -126,6 +127,7 @@ export class AuthService {
       accessToken: tokens.accessToken,
       username: foundUser.username,
       rol: foundUser.rol,
+      id: foundUser.id,
     });
   }
   async logout(refreshToken: string, res: Response) {

@@ -16,7 +16,6 @@ interface ModalProps {
 export default function ImageModal({ open, CloseModal, image }: ModalProps) {
     const handleClose = () => CloseModal(false);
     return (
-
         <Modal
             sx={{
                 display: "flex",
@@ -34,12 +33,14 @@ export default function ImageModal({ open, CloseModal, image }: ModalProps) {
                 timeout: 500
             }}
         >
+            
             <Fade in={open} timeout={500}>
                 <img
-                    src={image}
+                    src={image ? `http://localhost:3000${image}` : "https://source.unsplash.com/random"}
                     alt="asd"
                     style={{ maxHeight: "90%", maxWidth: "90%" }}
                 />
+                
             </Fade>
         </Modal>
 
