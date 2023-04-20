@@ -21,7 +21,7 @@ export default function Album() {
   const [open, setOpen] = useState<boolean>(false)
   const [url, setUrl] = useState<string>('http://localhost:5000/photo')
   const { userLogged } = useAuth()
-  const { sesionRequest, removeCookiesSesion } = useSession()
+  const { sesionRequest, cerrarSesion } = useSession()
   const [cards, setCards] = useState<CardType[]>([])
   const loadData = async () => {
     try {
@@ -53,7 +53,7 @@ export default function Album() {
         url: 'http://localhost:5000/auth/logout',
       }
     )
-    removeCookiesSesion()
+    cerrarSesion()
     loadData()
   }
   useEffect(() => { loadData() }, [userLogged, open, url])
@@ -104,7 +104,7 @@ export default function Album() {
                 {userLogged ? (<>
                   <Stack spacing={2} direction="row">
                     <Typography variant="h6" align="center" gutterBottom>
-                      Hi
+                      `Hello dear ${userLogged.username}`
                     </Typography>
                   </Stack>
                 </>) : (<Button variant="contained" onClick={() => {
