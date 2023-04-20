@@ -21,35 +21,40 @@ export default function Album() {
   const [open, setOpen] = useState<boolean>(false)
   const [url, setUrl] = useState<string>('http://localhost:5000/photo')
   const { userLogged } = useAuth()
-  const { sesionRequest } = useSession()
+  const { sesionRequest, removeCookiesSesion } = useSession()
   const [cards, setCards] = useState<CardType[]>([])
   const loadData = async () => {
-    if (userLogged) {
-      setUrl(`http://localhost:5000/photo/${userLogged.id}`)
-      const respuesta = await sesionRequest(
-        {
-          url: url,
-        }
-      )
-      setCards(respuesta)
-    }
     try {
-      const response = await Servicios.get({
-        url: url,
-        headers: {},
-      })
-      setCards(response)
+      if (!userLogged) {
+        setUrl('http://localhost:5000/photo')
+        const response = await Servicios.get({
+          url: url,
+          headers: {},
+        })
+        setCards(response)
+      }
+      else {
+        setUrl(`http://localhost:5000/photo/${userLogged.id}`)
+        const respuesta = await sesionRequest(
+          {
+            url: url,
+          }
+        )
+        setCards(respuesta)
+      }
     } catch (e) {
       console.log(`Error al iniciar sesión: `, e)
     }
   }
-  const onLogOut = async() => {
+  const onLogOut = async () => {
     //localhost:5000/auth/logout
-    const response = await Servicios.get({
-      url: 'http://localhost:5000/auth/logout',
-      headers: {},
-    })
-    setCards(response)
+    const response = await sesionRequest(
+      {
+        url: 'http://localhost:5000/auth/logout',
+      }
+    )
+    removeCookiesSesion()
+    loadData()
   }
   useEffect(() => { loadData() }, [userLogged, open, url])
   return (
