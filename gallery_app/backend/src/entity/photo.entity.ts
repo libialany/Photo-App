@@ -7,8 +7,9 @@ import {
   JoinColumn,
   CreateDateColumn,
 } from 'typeorm';
+import { AppBaseEntity } from '../../common/entity/base.entity';
 @Entity()
-export class Photo {
+export class Photo extends AppBaseEntity {
   @PrimaryGeneratedColumn()
   id: string;
 
@@ -40,9 +41,7 @@ export class Photo {
     nullable: true,
   })
   idUser: string;
-  // constructor(title: string, url: string, description: string) {
-  //   this.title = title;
-  //   this.url = url;
-  //   this.description = description;
-  // }
+  constructor(data?: Partial<Photo>) {
+    super(data);
+  }
 }

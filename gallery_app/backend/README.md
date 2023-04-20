@@ -15,7 +15,7 @@
 
 authentication
 - SignUp
-- sIgnIn
+- SignIn [X]
 - Logout
 
 user
@@ -33,3 +33,16 @@ admin
 You can import the example collection
 peticionNoticias.json and then you can test how this API works.
 
+## install 
+
+***postgresql***
+
+``` create database <>;```
+
+***node***
+
+```cp .env.example .env```
+
+```npm i```
+
+```npm run setup```
