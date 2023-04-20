@@ -15,11 +15,14 @@ import LayoutImages from '@/components/layoutImages/LayoutImages';
 import { CardType } from '@/modules/cards/types/CardsTypes';
 import { Servicios } from '@/common/services/Servicios';
 import { useSession } from '@/common/hooks/useSession';
+import SignUp from '@/components/sign-up/SignUp';
+
 const theme = createTheme();
 
 export default function Album() {
   const [open, setOpen] = useState<boolean>(false)
-  const [url, setUrl] = useState<string>('http://localhost:5000/photo')
+  const [openSignUp, setOpenSignUp] = useState<boolean>(false)
+  const [url, setUrl] = useState<string>(`${process.env.NEXT_PUBLIC_BASE_URL}/photo`)
   const { userLogged } = useAuth()
   const { sesionRequest, cerrarSesion } = useSession()
   const [cards, setCards] = useState<CardType[]>([])
@@ -59,16 +62,18 @@ export default function Album() {
   useEffect(() => { loadData() }, [userLogged, open, url])
   return (
     <>
+    <p>{`${process.env.NEXT_PUBLIC_BASE_URL}`}</p>
       <SignIn open={open} CloseModal={setOpen} />
+      <SignUp open={openSignUp} CloseModal={setOpenSignUp} />
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <AppBar position="relative">
           <Toolbar sx={{ alignItems: 'center', paddingLeft: 1 }}>
             <CameraIcon sx={{ mr: 2 }} />
             <Typography variant="h6" color="inherit" noWrap>
-              Album App
+              Y Album App
             </Typography>
-            {userLogged && <Button size="small" variant="text" sx={{ color: 'white' }} onClick={onLogOut}>Log Out</Button>}
+            {userLogged && <Button size="small" variant="text" sx={{ color: 'white', p:2 }} onClick={onLogOut}>Log Out</Button>}
           </Toolbar>
         </AppBar>
         <main>
@@ -91,9 +96,7 @@ export default function Album() {
                 Album App
               </Typography>
               <Typography variant="h5" align="center" color="text.secondary" paragraph>
-                Something short and leading about the collection below—its contents,
-                the creator, etc. Make it short and sweet, but not too short so folks
-                don&apos;t simply skip over it entirely.
+                This is your own gallery
               </Typography>
               <Stack
                 sx={{ pt: 4 }}
@@ -104,12 +107,17 @@ export default function Album() {
                 {userLogged ? (<>
                   <Stack spacing={2} direction="row">
                     <Typography variant="h6" align="center" gutterBottom>
-                      `Hello dear ${userLogged.username}`
+                      {`Hello dear ${userLogged.username}`}
                     </Typography>
                   </Stack>
-                </>) : (<Button variant="contained" onClick={() => {
+                </>) : (<>
+                  <Button variant="contained" onClick={() => {
                   setOpen(true)
-                }}>Sign In</Button>)}
+                }}>Sign In</Button>
+                <Button variant="contained" onClick={() => {
+                  setOpenSignUp(true)
+                }}>Sign Up</Button>
+                </>)}
               </Stack>
             </Container>
           </Box>

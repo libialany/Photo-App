@@ -19,11 +19,11 @@ function LayoutImages({ cards }: LayoutProps) {
   const { userLogged } = useAuth();
   const recargarToken = async () => {
     try {
-      if (userLogged) {
-        await sesionRequest({
-          url: `http://localhost:5000`,
-        });
-      }
+    //   if (userLogged) {
+    //     await sesionRequest({
+    //       url: `http://localhost:5000`,
+    //     });
+    //   }
     } catch (error) {
       console.log(error);
     }
