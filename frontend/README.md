@@ -2,7 +2,25 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+First, set up .env values.
+
+in next.config.js
+
+
+```
+  env: {
+    SRC_IMAGES:
+      "/<whatever-youare-working>/photo-API/gallery_app/frontend/public",
+    DST_IMAGES: "/images",
+    NEXT_PUBLIC_BASE_URL: "http://localhost:5000",
+    NEXT_PUBLIC_FRONTEND_URL: "http://localhost:3000",
+  },
+```
+
+**important**
+_change SRC_IMAGES is the same path as the .env of the backend folder_
+
+Second, run the development server:
 
 ```bash
 npm run dev
