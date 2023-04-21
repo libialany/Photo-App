@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }: AuthContextType) => {
   const login = async ({ username, password }: LoginType) => {
     try {
       const response = await Servicios.post({
-        url: "http://localhost:5000/auth/signin",
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/signin`,
         body: { username, password },
         headers: {},
       });

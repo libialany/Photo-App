@@ -32,14 +32,14 @@ export default function Album() {
   const loadData = async () => {
     try {
       if (!userLogged) {
-        setUrl("http://localhost:5000/photo");
+        setUrl(`${process.env.NEXT_PUBLIC_BASE_URL}/photo`);
         const response = await Servicios.get({
           url: url,
           headers: {},
         });
         setCards(response);
       } else {
-        setUrl(`http://localhost:5000/photo/${userLogged.id}`);
+        setUrl(`${process.env.NEXT_PUBLIC_BASE_URL}/photo/${userLogged.id}`);
         const respuesta = await sesionRequest({
           url: url,
         });
