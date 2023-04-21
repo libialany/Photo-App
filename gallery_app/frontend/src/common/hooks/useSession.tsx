@@ -22,10 +22,17 @@ export const useSession = () => {
         console.log(`Token expired ⏳`)
         await actualizarSesion()
       }
+      // const cabeceras = {
+      //   accept: 'application/json',
+      //   Authorization: `Bearer ${leerCookie('token') ?? ''}`,
+      //   ...headers,
+      // }
+
       const _headers = {
         accept: 'application/json',
         Authorization: `Bearer ${readCookie('access_token_frontend') ?? ''}`,
-        withCredentials: true
+        // withCredentials: true
+        ...headers,
       }
       console.log(`enviando 🔐🌍`, body, tipo, url, _headers)
       const response = await Servicios.peticionHTTP({
@@ -59,16 +66,16 @@ export const useSession = () => {
 
   const cerrarSesion = async () => {
     try {
+      const token = readCookie('access_token_frontend')
+      const respuesta = await Servicios.get({
+        headers: {
+          accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/logout`,
+      })
       removeCookiesSesion()
-      // const token = readCookie('access_token_frontend')
-      // const respuesta = await Servicios.get({
-      //   headers: {
-      //     accept: 'application/json',
-      //     Authorization: `Bearer ${token}`,
-      //   },
-      //   url: 'http://localhost:5000/auth/logout',
-      // })
-      // console.log(`finalizando con respuesta`, respuesta)
+      console.log(`🥺 😭 funciona?  ${respuesta}`);
       // if (respuesta?.url) {
       //   window.location.href = respuesta?.url
       // } else {
@@ -78,14 +85,28 @@ export const useSession = () => {
       console.log(`Error al cerrar sesión: `, e)
     }
   }
-
   const actualizarSesion = async () => {
+    console.log(`Actualizando token 🚨`)
+    try {
+      const respuesta = await Servicios.post({
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/refresh`,
+        withCredentials: true
+      })
+      saveCookie('access_token_frontend', respuesta.datos?.access_token)
+    } catch (e) {
+      console.log(`😔cerrando session`)
+      await cerrarSesion()
+    }
+  }
+
+
+/*   const actualizarSesion = async () => {
     console.log(`Update token 🚨`)
     try {
       console.log('>>>>>>>>>>>>>>>>>estamos entrando');
       const respuesta = await axios('http://localhost:5000/auth/refresh', {
         method: "post",
-        withCredentials: true
+        withCredentials: true,
       })
       console.log('lllllllllllllllllllllll',respuesta.data);
       console.log('>>>>>>>>>>>>>>>>>estams refrescando', respuesta.data?.accessToken);
@@ -93,7 +114,7 @@ export const useSession = () => {
     } catch (e) {
       await cerrarSesion()
     }
-  }
+  } */
 
   return { sesionRequest, cerrarSesion, removeCookiesSesion }
 }

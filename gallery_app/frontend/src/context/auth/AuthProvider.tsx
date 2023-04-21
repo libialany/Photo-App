@@ -16,6 +16,7 @@ import { Servicios } from "@/common/services/Servicios";
 interface ContextProps {
   login: ({ username, password }: LoginType) => Promise<void>;
   userLogged: UserType | null;
+  reload: ()=> Promise<void>
 }
 
 const AuthContext = createContext<ContextProps>({} as ContextProps);
@@ -50,10 +51,18 @@ export const AuthProvider = ({ children }: AuthContextType) => {
   };
   // setear sesion
   const setRolUser = async () => {
-    const responseUser = await sesionRequest({
-      url: "http://localhost:5000/users/profile",
-    });
-
+    // const responseUser = await sesionRequest({
+    //   url: "http://localhost:5000/users/profile",
+    // });
+    const token = readCookie('access_token_frontend')
+    const responseUser = await Servicios.get({
+      headers: {
+        accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/users/profile`,
+    })
+    console.log(`🥺 😭 funciona?  ${responseUser}`);
     if (!responseUser?.rol) {
       throw new Error("Error no roles");
     }
@@ -88,6 +97,7 @@ export const AuthProvider = ({ children }: AuthContextType) => {
       value={{
         login: login,
         userLogged: user,
+        reload: setRolUser
       }}
     >
       {children}

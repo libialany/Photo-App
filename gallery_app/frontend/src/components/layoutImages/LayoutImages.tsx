@@ -16,23 +16,12 @@ interface LayoutProps {
 }
 function LayoutImages({ cards }: LayoutProps) {
   const { sesionRequest } = useSession();
-  const { userLogged } = useAuth();
-  const recargarToken = async () => {
-    try {
-    //   if (userLogged) {
-    //     await sesionRequest({
-    //       url: `http://localhost:5000`,
-    //     });
-    //   }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const { userLogged, reload } = useAuth();
   const [openImagen, setOpenImagen] = useState<boolean>(false);
   const [image, setImage] = useState<string>("");
   return (
     <>
-      <ImageModal open={openImagen} CloseModal={setOpenImagen} image={image} />
+      <ImageModal open={openImagen} CloseModal={setOpenImagen} image={image}/>
       <Container sx={{ py: 8 }} maxWidth="md">
         {/* End hero unit */}
         <Grid container spacing={4}>
@@ -68,7 +57,7 @@ function LayoutImages({ cards }: LayoutProps) {
                     <Button
                       size="small"
                       onClick={() => {
-                        recargarToken();
+                        reload();
                         setImage(card.url);
                         setOpenImagen(true);
                       }}
