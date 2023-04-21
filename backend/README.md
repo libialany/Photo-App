@@ -9,35 +9,33 @@
 
 - JWT authentication
 - Refresh Token
-- Authorization (Roles, Modules, Users, Permissions)
+## TODO
+- Authorization (Roles)
 
 ## Recommendations
 
 authentication
 - SignUp
-- SignIn [X]
+- SignIn
 - Logout
 
-user
--crear noticia _requirement sigin_
+Loged user
+-list your own set of images
+-upload and image _requirement sigin_
+## TODO
 -update new  _requirement sigin_
 -delete new _requirement sigin_
 
+*important*
 
-admin
-- list users _requirement sigin_
-- list news  _requirement sigin_
-
-*Nota*
-
-You can import the example collection
-peticionNoticias.json and then you can test how this API works.
+You can import the example postman collection
+the sample is in the backend folder
 
 ## install 
 
 ***postgresql***
 
-``` create database <>;```
+``` create database photo_db;```
 
 ***node***
 
