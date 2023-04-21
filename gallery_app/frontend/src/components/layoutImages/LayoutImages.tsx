@@ -15,13 +15,13 @@ interface LayoutProps {
   cards: CardType[];
 }
 function LayoutImages({ cards }: LayoutProps) {
-  const { sesionRequest } = useSession();
+  const { sesionRequest,cerrarSesion } = useSession();
   const { userLogged, reload } = useAuth();
   const [openImagen, setOpenImagen] = useState<boolean>(false);
   const [image, setImage] = useState<string>("");
   return (
     <>
-      <ImageModal open={openImagen} CloseModal={setOpenImagen} image={image}/>
+      <ImageModal open={openImagen} CloseModal={setOpenImagen} image={image} />
       <Container sx={{ py: 8 }} maxWidth="md">
         {/* End hero unit */}
         <Grid container spacing={4}>
@@ -56,8 +56,12 @@ function LayoutImages({ cards }: LayoutProps) {
                   <CardActions>
                     <Button
                       size="small"
-                      onClick={() => {
-                        reload();
+                      onClick={async () => {
+                        try {
+                          await sesionRequest({ url: `${process.env.NEXT_PUBLIC_BASE_URL}/users/load` });
+                        } catch (error) {
+                          await cerrarSesion();
+                        }
                         setImage(card.url);
                         setOpenImagen(true);
                       }}
