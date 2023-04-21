@@ -1,0 +1,12 @@
+[
+    {
+       "id": 1,
+       "nombre": "La Paz",
+       "abreviatura": "LP"
+    },
+    {
+        "id": 2,
+        "nombre": "Santa Cruz",
+        "abreviatura": "SZ"
+    }
+]

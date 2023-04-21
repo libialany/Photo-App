@@ -1,0 +1,36 @@
+[
+    {
+       "id": 1,
+       "titulo": "Se encuentra cura para el VIH",
+       "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid, maiores? Nihil praesentium, quam vel voluptates et temporibus vero, quos iure optio quibusdam earum pariatur, sunt laborum nulla! Debitis, doloribus quam!",
+       "fechaCreacion": "1/1/1",
+       "id_categoria": 1,
+       "id_departamento": 1,
+        "autor":"Harris t.",
+        "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCZSzrjVlCI6BduxcLj3hOZNoeYJq9HBeDQ4liIAFG4QpPnhUub25kzAy1YRqoJE05zVg&usqp=CAU",
+        "banner": true
+    },
+    {
+        "id": 2,
+        "titulo": "Encuentro de danza Brazilenia",
+        "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid, maiores? Nihil praesentium, quam vel voluptates et temporibus vero, quos iure optio quibusdam earum pariatur, sunt laborum nulla! Debitis, doloribus quam!",
+        "fechaCreacion": "1/1/3",
+        "id_categoria": 2,
+        "id_departamento": 2,
+         "autor":"Sure G.",
+         "imagen": "https://www.nationalgeographic.com.es/medio/2021/03/25/antes-de-partir-hacia-el-mar-una-hembra-de-pinguino-emperador-transfiere-el-huevo-a-los-pies-de-su-pareja_c773c323_800x800.jpg",
+         "banner": true
+     },
+     {
+        "id": 3,
+        "titulo": "Se encuentra cura para el Denge",
+        "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid, maiores? Nihil praesentium, quam vel voluptates et temporibus vero, quos iure optio quibusdam earum pariatur, sunt laborum nulla! Debitis, doloribus quam!",
+        "fechaCreacion": "1/1/2",
+        "id_categoria": 1,
+        "id_departamento": 1,
+         "autor":"Sure G.",
+         "imagen": "https://cdn.bolivia.com/sdi/2017/10/25/bolivia-sube-consumo-per-capita-de-leche-a-618-litros-576962.jpg",
+         "banner": true
+     }
+     
+]
