@@ -41,13 +41,18 @@ export class UsersController {
     // return await {
     //   rol: req.user['rol'],
     // };
-    return 123;
+    return ''
   }
   // GET users
   @UseGuards(JwtAuthGuard)
   @Get()
   async findAll() {
     return await this.usersService.findAll();
+  }
+  @UseGuards(JwtAuthGuard)
+  @Get('load')
+  loadData() {
+    return 'loading..';
   }
   //Profile
   @UseGuards(JwtAuthGuard)
