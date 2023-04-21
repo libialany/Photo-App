@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Modal from "@mui/material/Modal";
 import { Dispatch, SetStateAction, useState } from "react";
 import { useAuth } from "@/context/auth/AuthProvider";
+import { Servicios } from "@/common/services/Servicios";
 
 const theme = createTheme();
 interface ModalProps {
@@ -26,20 +27,40 @@ export default function SignUp({ open, CloseModal }: ModalProps) {
   const handleClose = () => CloseModal(false);
   const [username, setUserName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [name, setName] = useState<string>("")
   const { login } = useAuth();
   const clearInputs = () => {
     setPassword("");
+    setName("")
     setUserName("");
   };
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    await login({
-      username,
-      password,
-    });
+    saveUpdateRequestAccount()
     handleClose();
     clearInputs();
   };
+  const saveUpdateRequestAccount = async () => {
+    try {
+      // setIndicadorCarga(true)
+      // await delay(1000)
+      const respuesta = await Servicios.peticion({
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/signup`,
+        tipo: 'post',
+        body: {
+          name,
+          username,
+          password,
+          estado: "ACTIVO"
+        },
+      })
+      console.log(respuesta)
+    } catch (e) {
+      console.log(`Error al crear o actualizar count: `, e)
+    } finally {
+      // setIndicadorCarga(false)
+    }
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -60,7 +81,7 @@ export default function SignUp({ open, CloseModal }: ModalProps) {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign in
+              Sign Up
             </Typography>
             <Box
               component="form"
@@ -78,6 +99,16 @@ export default function SignUp({ open, CloseModal }: ModalProps) {
                 variant="filled"
                 onChange={(e) => setUserName(e.target.value)}
                 autoFocus
+              />
+              <TextField
+                margin="normal"
+                id="name"
+                required
+                fullWidth
+                name="name"
+                label="Name"
+                onChange={(e) => setName(e.target.value)}
+                variant="filled"
               />
               <TextField
                 margin="normal"
@@ -105,7 +136,7 @@ export default function SignUp({ open, CloseModal }: ModalProps) {
               <Grid container>
                 <Grid item>
                   <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
+                    {"You have an account? Sign In"}
                   </Link>
                 </Grid>
               </Grid>

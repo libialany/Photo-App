@@ -15,7 +15,7 @@ export class PhotoService {
     private dataSource: DataSource,
     @InjectRepository(User)
     private userRepository: Repository<User>,
-  ) {}
+  ) { }
   // public async getPhotosById(idProfile: string) {
   //   const postWithEntityManager = await this.photoManager
   //     .createQueryBuilder(Categoria, 'categoria')
@@ -133,6 +133,7 @@ export class PhotoService {
     newPhoto.title = _photo.title;
     newPhoto.url = img_url;
     newPhoto.description = _photo.description;
+    newPhoto.estado = photo.estado;
     console.log(`updated Photo${newPhoto}`);
     return this.photoRepository.update(photoId, newPhoto);
   }

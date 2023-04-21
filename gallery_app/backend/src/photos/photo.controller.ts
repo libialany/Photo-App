@@ -34,7 +34,7 @@ export class PhotoController {
   constructor(
     private photoService: PhotoService,
     private usersService: UsersService,
-  ) {}
+  ) { }
   @UseGuards(JwtAuthGuard)
   @Get(':id')
   async getPhotoDetalle(@Param('id') id: string): Promise<Photo[]> {
@@ -73,10 +73,10 @@ export class PhotoController {
     // request
     const user = await this.usersService.findByUsername(req.user['username']);
     console.log(user);
-    
+
     const imageUrl = process.env.DST_IMAGES + '/' + file.filename;
     console.log(imageUrl);
-    
+
     return this.photoService.addPhoto(imageUrl, noticia, user.id);
   }
 

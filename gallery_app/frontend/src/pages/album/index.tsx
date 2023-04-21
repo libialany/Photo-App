@@ -16,6 +16,7 @@ import { CardType } from '@/modules/cards/types/CardsTypes';
 import { Servicios } from '@/common/services/Servicios';
 import { useSession } from '@/common/hooks/useSession';
 import SignUp from '@/components/sign-up/SignUp';
+import Banner from '@/components/banner/Banner';
 
 const theme = createTheme();
 
@@ -62,7 +63,6 @@ export default function Album() {
   useEffect(() => { loadData() }, [userLogged, open, url])
   return (
     <>
-    <p>{`${process.env.NEXT_PUBLIC_BASE_URL}`}</p>
       <SignIn open={open} CloseModal={setOpen} />
       <SignUp open={openSignUp} CloseModal={setOpenSignUp} />
       <ThemeProvider theme={theme}>
@@ -73,7 +73,7 @@ export default function Album() {
             <Typography variant="h6" color="inherit" noWrap>
               Y Album App
             </Typography>
-            {userLogged && <Button size="small" variant="text" sx={{ color: 'white', p:2 }} onClick={onLogOut}>Log Out</Button>}
+            {userLogged && <Button size="small" variant="text" sx={{ color: 'white', p: 2 }} onClick={onLogOut}>Log Out</Button>}
           </Toolbar>
         </AppBar>
         <main>
@@ -105,18 +105,14 @@ export default function Album() {
                 justifyContent="center"
               >
                 {userLogged ? (<>
-                  <Stack spacing={2} direction="row">
-                    <Typography variant="h6" align="center" gutterBottom>
-                      {`Hello dear ${userLogged.username}`}
-                    </Typography>
-                  </Stack>
+                  <Banner userLogged={userLogged} />
                 </>) : (<>
                   <Button variant="contained" onClick={() => {
-                  setOpen(true)
-                }}>Sign In</Button>
-                <Button variant="contained" onClick={() => {
-                  setOpenSignUp(true)
-                }}>Sign Up</Button>
+                    setOpen(true)
+                  }}>Sign In</Button>
+                  <Button variant="contained" onClick={() => {
+                    setOpenSignUp(true)
+                  }}>Sign Up</Button>
                 </>)}
               </Stack>
             </Container>

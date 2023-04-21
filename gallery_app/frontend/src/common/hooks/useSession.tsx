@@ -54,6 +54,7 @@ export const useSession = () => {
   const removeCookiesSesion = () => {
     removeCookie('access_token')
     removeCookie('access_token_frontend')
+    removeCookie('rol')
   }
 
   const cerrarSesion = async () => {
