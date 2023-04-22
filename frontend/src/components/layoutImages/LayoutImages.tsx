@@ -11,16 +11,21 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { CardType } from "@/modules/cards/types/CardsTypes";
 import { useAuth } from "@/context/auth/AuthProvider";
+import EditImage from "../Form/EditImage";
 interface LayoutProps {
   cards: CardType[];
+  loadData: () => Promise<void>;
 }
-function LayoutImages({ cards }: LayoutProps) {
-  const { sesionRequest,cerrarSesion } = useSession();
-  const { userLogged, reload } = useAuth();
+
+function LayoutImages({ cards, loadData }: LayoutProps) {
+  const { sesionRequest, cerrarSesion } = useSession();
+  const { userLogged, setCurrentPhoto, currentPhoto } = useAuth();
   const [openImagen, setOpenImagen] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
   const [image, setImage] = useState<string>("");
   return (
     <>
+      {userLogged && userLogged.id && currentPhoto && (<EditImage open={open} CloseModal={setOpen} user={userLogged.id} loadData={loadData} photo={currentPhoto} setCurrentPhoto={setCurrentPhoto} />)}
       <ImageModal open={openImagen} CloseModal={setOpenImagen} image={image} />
       <Container sx={{ py: 8 }} maxWidth="md">
         {/* End hero unit */}
@@ -68,6 +73,34 @@ function LayoutImages({ cards }: LayoutProps) {
                     >
                       View
                     </Button>
+                    {userLogged && (<Button
+                      size="small"
+                      onClick={async () => {
+                        try {
+                          setCurrentPhoto(card)
+                          setOpen(true)
+                        } catch (error) {
+                          await cerrarSesion();
+                        }
+                      }}
+                    >
+                      Edit
+                    </Button>
+                    )}
+                    {userLogged && (<Button
+                      size="small"
+                      onClick={async () => {
+                        try {
+                          await sesionRequest({ url: `${process.env.NEXT_PUBLIC_BASE_URL}/photo/${card.id}`, tipo: 'delete' });
+                          loadData()
+                        } catch (error) {
+                          await cerrarSesion();
+                        }
+                      }}
+                    >
+                      Delete
+                    </Button>
+                    )}
                   </CardActions>
                 </Card>
               </Grid>

@@ -25,7 +25,7 @@ export class AuthController {
   constructor(
     private authService: AuthService,
     private abilityFactory: AbilityFactory,
-  ) {}
+  ) { }
 
   @Post('signup')
   signup(@Body() createUserDto: CreateUserDto, @Res() res) {
@@ -50,6 +50,7 @@ export class AuthController {
     @Res() res: Response,
     @Cookies('access_token') refreshToken: string,
   ) {
+    res.clearCookie('token');
     return await this.authService.logout(refreshToken, res);
   }
 }

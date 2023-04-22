@@ -24,11 +24,6 @@ export const useSession = () => {
         console.log(`Token expired ⏳`);
         await actualizarSesion();
       }
-      // const cabeceras = {
-      //   accept: 'application/json',
-      //   Authorization: `Bearer ${leerCookie('token') ?? ''}`,
-      //   ...headers,
-      // }
 
       const _headers = {
         accept: "application/json",
@@ -76,15 +71,14 @@ export const useSession = () => {
         },
         url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/logout`,
       });
+      console.log(`🥺 ${respuesta}....`);
       removeCookiesSesion();
-      console.log(`🥺 😭 funciona?  ${respuesta}`);
-      // if (respuesta?.url) {
-      //   window.location.href = respuesta?.url
-      // } else {
-      router.reload();
-      // }
     } catch (e) {
       console.log(`Error al cerrar sesión: `, e);
+    } finally{
+      removeCookiesSesion();
+      router.reload()
+      console.log(`🥺 😭 cerrando session`);
     }
   };
   const actualizarSesion = async () => {

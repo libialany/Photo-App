@@ -140,7 +140,7 @@ export default function Album() {
               </Stack>
             </Container>
           </Box>
-          <LayoutImages cards={cards} />
+          <LayoutImages cards={cards} loadData={loadData}/>
         </main>
         {/* Footer */}
         <Box sx={{ bgcolor: "background.paper", p: 6 }} component="footer">

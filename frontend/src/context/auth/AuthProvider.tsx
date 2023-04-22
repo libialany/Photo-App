@@ -12,11 +12,14 @@ import { UserType } from "@/modules/user/types/UserType";
 import { useSession } from "@/common/hooks/useSession";
 import { saveCookie, readCookie } from "@/utils/session";
 import { Servicios } from "@/common/services/Servicios";
+import { CardType } from "@/modules/cards/types/CardsTypes";
 
 interface ContextProps {
   login: ({ username, password }: LoginType) => Promise<void>;
   userLogged: UserType | null;
-  reload: ()=> Promise<void>
+  reload: () => Promise<void>
+  currentPhoto: CardType | null
+  setCurrentPhoto: (currentPhoto: CardType | null) => Promise<void>
 }
 
 const AuthContext = createContext<ContextProps>({} as ContextProps);
@@ -28,6 +31,7 @@ interface AuthContextType {
 export const AuthProvider = ({ children }: AuthContextType) => {
   const [user, setUser] = useState<UserType | null>(null);
   const [rol, setRol] = useState<string | null>(null);
+  const [photoValue, setPhotoValue] = useState<CardType | null>(null)
   const { sesionRequest, removeCookiesSesion } = useSession();
   const login = async ({ username, password }: LoginType) => {
     try {
@@ -51,9 +55,6 @@ export const AuthProvider = ({ children }: AuthContextType) => {
   };
   // setear sesion
   const setRolUser = async () => {
-    // const responseUser = await sesionRequest({
-    //   url: "http://localhost:5000/users/profile",
-    // });
     const token = readCookie('access_token_frontend')
     const responseUser = await Servicios.get({
       headers: {
@@ -62,15 +63,21 @@ export const AuthProvider = ({ children }: AuthContextType) => {
       },
       url: `${process.env.NEXT_PUBLIC_BASE_URL}/users/profile`,
     })
-    console.log(`🥺 😭 funciona?  ${responseUser}`);
+    console.log(`🥺 😭 saliendo ...${responseUser}`);
     if (!responseUser?.rol) {
       throw new Error("Error no roles");
-    }
+    } await router.replace({
+      pathname: "/album",
+    });
     setUser(responseUser);
     console.log(`rol defined  👨‍💻: ${responseUser?.rol}`);
     setRol(responseUser?.rol);
     saveCookie("rol", responseUser?.rol);
   };
+  const setCurrentPhoto = async (val: CardType | null) => {
+    console.log('configurando');
+    setPhotoValue(val)
+  }
   const initUser = async () => {
     const token = readCookie("access_token_frontend");
     if (!token) {
@@ -97,7 +104,9 @@ export const AuthProvider = ({ children }: AuthContextType) => {
       value={{
         login: login,
         userLogged: user,
-        reload: setRolUser
+        reload: setRolUser,
+        currentPhoto: photoValue,
+        setCurrentPhoto: setCurrentPhoto
       }}
     >
       {children}

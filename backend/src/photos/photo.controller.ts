@@ -18,14 +18,12 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import multer, { diskStorage } from 'multer';
-import { GetPhotoDTO, CreatePhotoDTO, UpdatePhotoDTO } from 'src/dto/photo.dto';
-import { HasRoles } from 'src/auth/decorators/has-roles.decorator';
+import { CreatePhotoDTO, UpdatePhotoDTO } from 'src/dto/photo.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles-auht.guard';
 import { Role } from 'src/auth/model/roles.enum';
 import { Request } from 'express';
 import { UsersService } from 'src/user/user.service';
-import { User } from 'src/auth/dto/user-payload.dto';
 import { PhotoService } from './photo.service';
 import { Photo } from 'src/entity/photo.entity';
 
@@ -34,7 +32,7 @@ export class PhotoController {
   constructor(
     private photoService: PhotoService,
     private usersService: UsersService,
-  ) { }
+  ) {}
   @UseGuards(JwtAuthGuard)
   @Get(':id')
   async getPhotoDetalle(@Param('id') id: string): Promise<Photo[]> {
@@ -72,10 +70,10 @@ export class PhotoController {
     }
     // request
     const user = await this.usersService.findByUsername(req.user['username']);
-    console.log(user);
+    //console.log(user);
 
     const imageUrl = process.env.DST_IMAGES + '/' + file.filename;
-    console.log(imageUrl);
+    //console.log(imageUrl);
 
     return this.photoService.addPhoto(imageUrl, noticia, user.id);
   }
@@ -111,15 +109,15 @@ export class PhotoController {
     ) {
       throw new UnauthorizedException();
     }
-    const user = await this.usersService.findByUsername(req.user['username']);
-    const imageUrl = process.env.DST_IMAGES + file.filename;
-    return this.photoService.updatePhoto(imageUrl, photo, user.id);
+    const imageUrl = process.env.DST_IMAGES + '/' + file.filename;
+    // console.log(imageUrl);
+    return await this.photoService.updatePhoto(imageUrl, photo, id);
   }
   @Get()
   async allPhotos() {
     return this.photoService.getPhotos();
   }
-
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   async deleteProfile(@Param('id') id: string) {
     return this.photoService.deletePhotoById(id);
