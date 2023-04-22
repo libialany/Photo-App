@@ -73,11 +73,11 @@ export const useSession = () => {
       });
       console.log(`🥺 ${respuesta}....`);
       removeCookiesSesion();
+      router.reload()
     } catch (e) {
       console.log(`Error al cerrar sesión: `, e);
     } finally{
       removeCookiesSesion();
-      router.reload()
       console.log(`🥺 😭 cerrando session`);
     }
   };
