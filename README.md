@@ -1,6 +1,6 @@
 # Photo-APP
 
-It's a web-based task manager that allows you to create and manage your own gallery. Here's a quick rundown of the features:
+It's a gallery manager app that allows you to create and manage your own gallery. Here's a quick rundown of the features:
 
 -User authentication and refresh tokens.
 
