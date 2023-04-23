@@ -9,8 +9,8 @@
 
 - JWT authentication
 - Refresh Token
-## TODO
-- Authorization (Roles)
+
+**TODO** Authorization (Roles)
 
 ## Recommendations
 
@@ -22,7 +22,6 @@ authentication
 Loged user
 -list your own set of images
 -upload and image _requirement sigin_
-## TODO
 -update new  _requirement sigin_
 -delete new _requirement sigin_
 
