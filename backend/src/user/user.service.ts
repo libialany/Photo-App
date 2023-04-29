@@ -1,34 +1,3 @@
-// import { Injectable } from '@nestjs/common';
-// import { Role } from 'src/auth/model/roles.enum';
-
-// // This should be a real class/interface representing a user entity
-// export type User = any;
-
-// @Injectable()
-// export class UsersService {
-//   private readonly users = [
-//     {
-//       userId: 1,
-//       username: 'lib',
-//       password: '123',
-//       roles: [Role.Admin],
-//       isAdmin: true,
-//       refreshToken: '',
-//     },
-//     {
-//       userId: 2,
-//       username: 'maria',
-//       password: 'guess',
-//       roles: [Role.User],
-//       isAdmin: false,
-//       refreshToken: '',
-//     },
-//   ];
-
-//   async findOne(username: string): Promise<User | undefined> {
-//     return this.users.find((user) => user.username === username);
-//   }
-// }
 import { Injectable } from '@nestjs/common';
 import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto } from './dto/create-user.dto';

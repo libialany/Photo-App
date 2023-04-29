@@ -15,10 +15,10 @@ async function bootstrap() {
   });
 
   const config = new DocumentBuilder()
-    .setTitle('Noticias')
-    .setDescription('Blog Noticias')
+    .setTitle('Photo')
+    .setDescription('App Photo')
     .setVersion('1.0')
-    .addTag('noticias')
+    .addTag('photo')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
